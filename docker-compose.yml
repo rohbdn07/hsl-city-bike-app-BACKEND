@@ -10,9 +10,9 @@ services:
       - /app/src/node_modules
     container_name: backend-nodejs
     expose:
-      - '3000'
+      - '5050'
     ports:
-      - '3000:3000'
+      - '5050:5050'
     depends_on:
       - postgres
     networks:
