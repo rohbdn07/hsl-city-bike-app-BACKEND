@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  backend-nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/app/src
+      - /app/src/node_modules
+    container_name: backend-nodejs
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    networks:
+      - node-postgres
+
+  postgres:
+    image: postgres:14.4-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+    ports:
+      - '5432:5432'
+    networks:
+      - node-postgres
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    command: postgres -c listen_addresses='*'
+volumes:
+  postgres-data: {}
+networks:
+  node-postgres: {}
+
+
+
+
+    
