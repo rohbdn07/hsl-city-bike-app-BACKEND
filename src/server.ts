@@ -3,7 +3,7 @@ import dotenv = require('dotenv')
 import cors = require('cors')
 dotenv.config()
 
-import { pgDataSource } from './app-data-source'
+import { pgDataSource } from './config/db/app-data-source'
 import { User } from './db/entity/user.entity'
 
 // establish database connection
