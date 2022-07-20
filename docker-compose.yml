@@ -19,7 +19,7 @@ services:
       - node-postgres
 
   postgres:
-    image: postgres:14.4-alpine
+    image: postgres:12.11-alpine
     restart: always
     environment:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -30,9 +30,9 @@ services:
     networks:
       - node-postgres
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-    command: postgres -c listen_addresses='*'
-  
+      - ./postgres-data:/var/lib/postgresql/data/
+    # command: bash -c "mv ./src/db/csvtest/*.csv /var/lib/postgresql/data/"
+    # command: [sh -c "cat ./src/db/csvtest/test.csv > /var/lib/postgresql/data/"]
   pg_admin:
     image: dpage/pgadmin4
     restart: always
@@ -50,6 +50,8 @@ volumes:
   postgres-data:
     driver: local
   pgadmin:
+    driver: local
+  pgdata:
     driver: local
 networks:
   node-postgres: {}
