@@ -4,11 +4,18 @@
     "description": "Backend for helsinki city bike app",
     "main": "server.ts",
     "scripts": {
-        "dev": "NODE_ENV=development nodemon --watch *.ts --exec 'ts-node' ./src/server.ts",
+        "dev": "NODE_ENV=development nodemon --ignore './src/runcsv.ts' --exec 'ts-node' ./src/server.ts",
         "start": "NODE_PATH=./dist node dist/server.ts",
         "build": "rm -f dist && npx tsc",
         "eslint:fix": "eslint --fix",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "csv": "NODE_OPTIONS='--max-old-space-size=3072' ts-node ./src/runcsv.ts",
+        "nodemonConfig": {
+            "ignore": [
+                "./src/runcsv.ts",
+                "./src/db/data/*.csv"
+            ]
+        }
     },
     "keywords": [
         "node"
@@ -32,6 +39,7 @@
         "@types/pg": "^8.6.5",
         "cors": "^2.8.5",
         "express": "^4.18.1",
+        "fast-csv": "^4.3.6",
         "pg": "^8.7.3",
         "reflect-metadata": "^0.1.13",
         "typeorm": "^0.3.7"
