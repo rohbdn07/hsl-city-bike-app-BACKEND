@@ -1,8 +1,8 @@
 node_modules/
 dist
 # ignore the csv dataset folders and its data
-/src/db/csvtest/
-/src/db/data/
+/src/database/csvtest/
+/src/database/data/
 
 # dotenv environment variables file
 .env
