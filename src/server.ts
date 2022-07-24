@@ -16,12 +16,16 @@ import { DBconnection } from "./database";
 
 import dotenv = require("dotenv");
 import router from "./api/routers/journey";
+import helmet from "helmet";
 dotenv.config();
 
 const app: Express = express();
 
 async function main() {
     await DBconnection();
+
+    // adding set of security middlewares
+    app.use(helmet());
     // parse json request body
     app.use(express.json());
     // parse urlencoded request body
