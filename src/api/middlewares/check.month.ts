@@ -10,17 +10,7 @@
  */
 
 import { NextFunction, Response } from "express";
-
-function validate(month: string) {
-    const toLowerCaseName = month.toLowerCase();
-    if (
-        toLowerCaseName == "may" ||
-        toLowerCaseName == "june" ||
-        toLowerCaseName == "july"
-    ) {
-        return toLowerCaseName;
-    }
-}
+import { validate } from "../helpers/validate";
 
 export const checkMonthValidation = (
     req,

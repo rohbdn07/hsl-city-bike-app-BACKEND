@@ -9,12 +9,14 @@
  */
 
 import { NextFunction, Response } from "express";
+import { validate } from "../helpers/validate";
 
 export const checkSearchQuery = (req, res: Response, next: NextFunction) => {
     const { search } = req.query;
+    const { monthname } = req.params;
     // const lowerCaseTextWithFirstLetterCapital = checkName(search);
     console.log("the Search name is", search);
-    if (search || search !== undefined) {
+    if (validate(monthname) || search) {
         req.searchQuery = search;
         next();
     } else {
