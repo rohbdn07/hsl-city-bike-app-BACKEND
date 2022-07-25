@@ -11,10 +11,21 @@ import { Response, Request } from "express";
 import JourneyService from "../../services";
 
 export const showJourneyList = async (req, res: Response) => {
-    const { month, searchQuery } = req;
-    console.log("Controller is called and month is:", month, searchQuery);
+    const { month, searchQuery, page, count } = req;
+    console.log(
+        "Controller is called and month is:",
+        month,
+        searchQuery,
+        page,
+        count
+    );
     try {
-        const getData = await JourneyService.getRows({ month, searchQuery });
+        const getData = await JourneyService.getRows({
+            month,
+            searchQuery,
+            page,
+            count,
+        });
         res.status(200).json(getData);
     } catch (error) {
         console.log("there is an error", error);
