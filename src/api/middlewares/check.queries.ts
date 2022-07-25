@@ -8,15 +8,15 @@
  *              - checkName()
  */
 
-import { NextFunction, Response } from "express";
-import { validate } from "../helpers/validate";
+import { NextFunction, Response, Request } from "express";
+import { checkPageAndCountValue, validate } from "../helpers/validate";
 
 export const checkSearchQuery = (req, res: Response, next: NextFunction) => {
     const { search } = req.query;
     const { monthname } = req.params;
-    // const lowerCaseTextWithFirstLetterCapital = checkName(search);
     console.log("the Search name is", search);
     if (validate(monthname) || search) {
+        checkPageAndCountValue(req);
         req.searchQuery = search;
         next();
     } else {
