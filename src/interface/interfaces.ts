@@ -20,4 +20,6 @@ export interface ITableName {
 export type GetRowsOfTheMonthProps = {
     month: string;
     searchQuery: string;
+    pageSize: number;
+    count: number;
 };
