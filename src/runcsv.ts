@@ -6,7 +6,10 @@ const fastcsv = require("fast-csv");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const absolutePath = path.join(__dirname, "/database/data/2021-07.csv");
+const absolutePath = path.join(
+    __dirname,
+    "/database/data/hsl_bike_stations.csv"
+);
 let stream = fs.createReadStream(absolutePath);
 // let stream = fs.createReadStream("./src/db/csvtest/test.csv");
 
@@ -31,7 +34,7 @@ stream
         csvData.shift();
         console.log("the length", csvData.length);
         const query =
-            "INSERT INTO table2021_07 (departure_date, return_date, departure_station_id, departure_station_name, return_station_id, return_station_name, distance_meter, duration_sec) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);";
+            "INSERT INTO hsl_bike_station (fid, station_id, nimi, namn,name, osoite, address, kaupunki, stad, operaattor, kapasiteet, longitude, latitude) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);";
         //connection to database pool..
         const pool = new Pool({
             host: "localhost",
