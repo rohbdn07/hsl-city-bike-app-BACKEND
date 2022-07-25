@@ -30,13 +30,20 @@ export abstract class Db_modal_table extends BaseEntity {
     duration_sec: number;
 
     toJSON() {
+        this["distance_km"] = this.distance_meter;
+        this["duration_min"] = this.duration_sec;
         return {
             ...this,
+            distance_km: parseFloat((this.distance_meter / 1000).toFixed(2)), // convert value(meter) to kilometer
+            duration_min: parseFloat((this.duration_sec / 60).toFixed(2)), // convert value (sec) to minutes
+            // all below properties are convert to undefined
+            // so that we won't see (not needed) these in our JSON response to client
+            distance_meter: undefined,
+            duration_sec: undefined,
             departure_station_id: undefined,
             return_station_id: undefined,
             departure_date: undefined,
             return_date: undefined,
-            //departure_station_name: this.departure_station_name.toLowerCase()
         };
     }
 }
