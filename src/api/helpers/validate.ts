@@ -15,3 +15,12 @@ export function validate(month: Month) {
         return toLowerCaseName;
     }
 }
+
+export function checkPageAndCountValue(req) {
+    const { page, count } = req.query;
+    if (!isNaN(parseInt(page)) && !isNaN(parseInt(count))) {
+        req.page = parseInt(page);
+        req.count = parseInt(count);
+        return;
+    }
+}
