@@ -15,7 +15,7 @@ const fs = require("fs");
 import { DBconnection } from "./database";
 
 import dotenv = require("dotenv");
-import router from "./api/routers/journey";
+import router from "./api/routers/index";
 import helmet from "helmet";
 dotenv.config();
 
