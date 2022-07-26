@@ -40,10 +40,6 @@ export abstract class Db_modal_table extends BaseEntity {
             // so that we won't see (not needed) these in our JSON response to client
             distance_meter: undefined,
             duration_sec: undefined,
-            departure_station_id: undefined,
-            return_station_id: undefined,
-            departure_date: undefined,
-            return_date: undefined,
         };
     }
 }
