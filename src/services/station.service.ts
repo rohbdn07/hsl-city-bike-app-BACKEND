@@ -6,21 +6,42 @@
  */
 
 import StationRepository from "../database/repository";
+import { IStationQuery } from "../interface/interfaces";
 
-export const getStationRows = async () => {
-    console.log("station service is called");
+export const getStationRows = async ({ stationid, name, page, count }) => {
+    console.log("the count rows", typeof count);
+    const pageSize =
+        !isNaN(page) && !isNaN(count) ? (page - 1) * count : parseInt("0");
     try {
-        const response = await StationRepository.getRowsOfStation();
+        const response = await StationRepository.getRowsOfStation({
+            pageSize,
+            count,
+            name,
+            stationid,
+        });
         if (response?.data.length > 0) {
-            const totalCounts = response?.totalCounts;
+            const totalRows = response?.totalCounts;
             const hslData = response?.data;
+            const counts = count
+                ? !isNaN(count)
+                    ? totalRows >= count
+                        ? count
+                        : totalRows
+                    : parseInt("0")
+                : undefined;
             return {
                 success: true,
                 message: "successfully got the data from database",
                 data: {
-                    totalCounts,
+                    totalRows,
+                    counts,
                     hslData,
                 },
+            };
+        } else {
+            return {
+                success: false,
+                message: "No data found with that search or params",
             };
         }
     } catch (error) {
