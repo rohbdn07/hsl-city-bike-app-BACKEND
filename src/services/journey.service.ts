@@ -44,7 +44,7 @@ export const getRows = async ({ month, searchQuery, page, count }) => {
         } else {
             return {
                 success: false,
-                message: "Cannot find the data with that query and parameter",
+                message: "No data found with that search or params",
             };
         }
     } catch (error) {
