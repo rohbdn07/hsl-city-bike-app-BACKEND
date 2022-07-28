@@ -1,6 +1,5 @@
 import { Response, Request } from "express";
 import { EntitySchema, Repository } from "typeorm";
-import { table_2021_05 } from "../database/entity/2021_05_hsl_entity";
 
 export interface IGetRowsResult {
     success: boolean;
@@ -23,3 +22,10 @@ export type GetRowsOfTheMonthProps = {
     pageSize: number;
     count: number;
 };
+
+export interface IStationQuery {
+    stationid: number;
+    name: string;
+    pageSize: number;
+    count: number;
+}
