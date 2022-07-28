@@ -6,8 +6,13 @@
  */
 import express from "express";
 import StationController from "../../controllers/index";
+import Middlewares from "../../middlewares";
 const router = express.Router();
 
-router.get("/stationslist", StationController.showStationList);
+router.get(
+    "/stationslist",
+    Middlewares.checkQueryForStationList,
+    StationController.showStationList
+);
 
 export default router;
