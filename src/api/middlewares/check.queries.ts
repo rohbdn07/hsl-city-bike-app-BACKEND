@@ -22,7 +22,25 @@ export const checkSearchQuery = (req, res: Response, next: NextFunction) => {
     } else {
         res.status(400).json({
             success: false,
-            message: ` Opps! Entered query is not valid input. Please try with correct input.`,
+            message: `Opps! Entered query is not valid input. Please try with correct input.`,
+        });
+    }
+};
+
+export const checkQueryForStationList = (req, res, next) => {
+    const { name, page, count, stationid } = req.query;
+    console.log("the station id is", count);
+
+    if ((name || page || count || stationid) !== undefined) {
+        req.name = name;
+        req.page = page;
+        req.count = count;
+        req.stationid = stationid;
+        next();
+    } else {
+        res.status(400).json({
+            success: false,
+            message: `Opps! Entered query is not valid input. Please try with correct input.`,
         });
     }
 };
