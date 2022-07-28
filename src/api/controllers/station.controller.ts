@@ -11,9 +11,15 @@ import { Response, Request } from "express";
 import StationService from "../../services";
 
 export const showStationList = async (req, res: Response) => {
-    console.log("station controller is called");
+    const { stationid, name, page, count } = req;
+
     try {
-        const getData = await StationService.getStationRows();
+        const getData = await StationService.getStationRows({
+            stationid,
+            name,
+            page,
+            count,
+        });
         res.status(200).json(getData);
     } catch (error) {
         console.log("there is an error", error);
