@@ -14,7 +14,6 @@ import { checkPageAndCountValue, validate } from "../helpers/validate";
 export const checkSearchQuery = (req, res: Response, next: NextFunction) => {
     const { search } = req.query;
     const { monthname } = req.params;
-    console.log("the Search name is", search);
     if (validate(monthname) || search) {
         checkPageAndCountValue(req);
         req.searchQuery = search;
@@ -29,10 +28,9 @@ export const checkSearchQuery = (req, res: Response, next: NextFunction) => {
 
 export const checkQueryForStationList = (req, res, next) => {
     const { name, page, count, stationid } = req.query;
-    console.log("the station id is", count);
 
     if ((name || page || count || stationid) !== undefined) {
-        req.name = name;
+        req.stationName = name;
         req.page = page;
         req.count = count;
         req.stationid = stationid;
@@ -40,7 +38,20 @@ export const checkQueryForStationList = (req, res, next) => {
     } else {
         res.status(400).json({
             success: false,
-            message: `Opps! Entered query is not valid input. Please try with correct input.`,
+            message: `Please enter required queries either name, page, count or stationid.`,
         });
+    }
+};
+
+export const checkStationIdParams = (req, res, next) => {
+    const { id } = req.params;
+    if (!id || isNaN(id)) {
+        res.status(400).json({
+            success: false,
+            message: `Opps! Entered ${id} params is not valid number. Please try with valid one`,
+        });
+    } else {
+        req.id = parseInt(id);
+        next();
     }
 };
