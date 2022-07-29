@@ -18,7 +18,6 @@ export const getRowsOfTheMonth = async ({
     pageSize,
     count,
 }: GetRowsOfTheMonthProps) => {
-    console.log("REPO: this is for all journey rows", month, pageSize);
     let hslData;
     try {
         switch (month) {
@@ -81,7 +80,7 @@ const search = async (
             ? [
                   { departure_station_name: ILike(`%${searchQuery}%`) },
                   {
-                      return_station_name: ILike(`${searchQuery}`),
+                      return_station_name: ILike(`%${searchQuery}%`),
                   },
               ]
             : {},
