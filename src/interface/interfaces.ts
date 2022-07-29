@@ -24,8 +24,12 @@ export type GetRowsOfTheMonthProps = {
 };
 
 export interface IStationQuery {
-    stationid: number;
-    name: string;
-    pageSize: number;
-    count: number;
+    stationid?: number;
+    stationName?: string;
+    pageSize?: number;
+    count?: number;
+}
+
+export interface IStationById {
+    id: number;
 }
