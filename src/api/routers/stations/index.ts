@@ -15,4 +15,11 @@ router.get(
     StationController.showStationList
 );
 
+router.get(
+    "/stationlist/:id/:monthname",
+    Middlewares.checkStationIdParams,
+    Middlewares.checkMonthValidation,
+    StationController.showStationById
+);
+
 export default router;
