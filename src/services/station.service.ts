@@ -37,10 +37,10 @@ export const getStationRows = async ({
         if (response?.data.length > 0) {
             const totalRows = response?.totalCounts;
             const hslData = response?.data;
-            const counts = count
-                ? !isNaN(count)
-                    ? totalRows >= count
-                        ? count
+            const counts = parseInt(count)
+                ? !isNaN(parseInt(count))
+                    ? totalRows >= parseInt(count)
+                        ? parseInt(count)
                         : totalRows
                     : parseInt("0")
                 : undefined;
