@@ -10,13 +10,13 @@ import Middlewares from "../../middlewares";
 const router = express.Router();
 
 router.get(
-    "/stationslist",
+    "/stationslists",
     Middlewares.checkQueryForStationList,
     StationController.showStationList
 );
 
 router.get(
-    "/stationlist/:id/:monthname",
+    "/stationsinfo/:id/:monthname",
     Middlewares.checkStationIdParams,
     Middlewares.checkMonthValidation,
     StationController.showStationById
