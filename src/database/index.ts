@@ -15,7 +15,10 @@ export const DBconnection = async () => {
                 .createQueryRunner()
                 .getCurrentDatabase();
             console.log("CONNECTION DATABASE NAME:", presentConnectionDBname);
-            syncORnotSyncWithDatabase(client);
+            // if (process.env.NODE_ENV !== "production") {
+            //     syncORnotSyncWithDatabase(client);
+            // }
+
             return client;
         } else {
             throw new Error("Unable to connect to database");
