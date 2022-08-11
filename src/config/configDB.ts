@@ -1,4 +1,5 @@
-import { DataSource } from "typeorm";
+import { DataSource, DataSourceOptions } from "typeorm";
+// import ORMConfig from "../ormconfig";
 const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -14,15 +15,17 @@ const isComplied = path.extname(__filename).includes("js");
  */
 export const pgDataSource: DataSource = new DataSource({
     type: "postgres",
-    host: process.env.POSTGRESQL_HOST || "localhost",
+    host: process.env.NODE_ENV ? process.env.POSTGRESQL_HOST : "localhost",
     port: process.env.POSTGRESQL_PORT
         ? parseInt(process.env.POSTGRESQL_PORT)
         : 5432,
-    username: process.env.POSTGRES_USER || "postgres",
-    password: process.env.POSTGRES_PASSWORD || "postgres",
-    database: process.env.POSTGRES_DB || "pg_database",
+    username: process.env.APP_DB_USER || "postgres",
+    password: process.env.APP_DB_PASS || "postgres",
+    database: process.env.APP_DB_NAME || "pg_database",
     entities: [`src/database/entity/**/*.${isComplied ? "js" : "ts"}`],
-    migrations: [`src/migration/**/*.${isComplied ? "js" : "ts"}`],
+    migrations: [`src/migrations/**/*.${isComplied ? "js" : "ts"}`],
     logging: true,
-    // dropSchema: true,
+    synchronize: false, // MUST set false for production, instead run migration.
+    dropSchema: false,
+    migrationsRun: true,
 });
