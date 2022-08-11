@@ -27,14 +27,12 @@ export const checkMonthValidation = (
     } else if (monthname) {
         const month = validate(monthname);
         if (month) {
-            console.log("the month is:", month);
-
             req.month = month;
             next();
         } else {
             res.status(400).json({
                 success: false,
-                message: ` Opps! Entered ${monthname} is not valid input. Please try with correct input.`,
+                message: `Opps! Entered ${monthname} is not valid input. Please try with correct input.`,
             });
         }
     }
