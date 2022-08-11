@@ -8,38 +8,15 @@
  *              - Server
  */
 
-import express, { Express, NextFunction, Request, Response } from "express";
-import cors = require("cors");
 const fs = require("fs");
+import app from "./app";
 
 import { DBconnection } from "./database";
 
 import dotenv = require("dotenv");
-import router from "./api/routers/index";
-import helmet from "helmet";
 dotenv.config();
 
-const app: Express = express();
-
-async function main() {
-    await DBconnection();
-
-    // adding set of security middlewares
-    app.use(helmet());
-    // parse json request body
-    app.use(express.json());
-    // parse urlencoded request body
-    app.use(express.urlencoded({ extended: true }));
-    // enable cors
-    app.use(cors());
-
-    //get data from route end-point
-    app.use("/api/hslcitybike", router);
-
-    app.get("/", (req: Request, res: Response) => {
-        res.send("hello world");
-    });
-
+DBconnection().then(async () => {
     const port = process.env.PORT || 5050;
 
     app.listen(port, () => {
@@ -48,7 +25,16 @@ async function main() {
             `Server :: Running @ 'http://localhost:${port}'`
         );
     });
-}
-main();
+});
+// async function main() {
+//     await DBconnection();
+//     const port = process.env.PORT || 5050;
 
-// module.exports = app;
+//     app.listen(port, () => {
+//         console.log(
+//             "\x1b[33m%s\x1b[0m",
+//             `Server :: Running @ 'http://localhost:${port}'`
+//         );
+//     });
+// }
+// main();
