@@ -16,23 +16,27 @@ const isComplied = path.extname(__filename).includes("js");
 
 // runs before each tests
 beforeEach(async () => {
-    connection = new DataSource({
-        type: "postgres",
-        host: "localhost",
-        port: process.env.POSTGRESQL_PORT
-            ? parseInt(process.env.POSTGRESQL_PORT)
-            : 5432,
-        username: process.env.APP_DB_USER || "postgres",
-        password: process.env.APP_DB_PASS || "postgres",
-        database: process.env.APP_DB_NAME || "pg_database",
-        entities: [`src/database/entity/**/*.${isComplied ? "js" : "ts"}`],
-        // migrations: [`src/migration/**/*.${isComplied ? "js" : "ts"}`],
-        // logging: true,
-        // synchronize: true,
-        // dropSchema: true,
-    });
-    await connection.initialize();
-    server = app.listen(port);
+    try {
+        connection = new DataSource({
+            type: "postgres",
+            host: "localhost",
+            port: process.env.POSTGRESQL_PORT
+                ? parseInt(process.env.POSTGRESQL_PORT)
+                : 5432,
+            username: process.env.APP_DB_USER,
+            password: process.env.APP_DB_PASS,
+            database: process.env.APP_DB_NAME,
+            entities: [`src/database/entity/**/*.${isComplied ? "js" : "ts"}`],
+            // migrations: [`src/migration/**/*.${isComplied ? "js" : "ts"}`],
+            // logging: true,
+            // synchronize: true,
+            // dropSchema: true,
+        });
+        await connection.initialize();
+        server = app.listen(port);
+    } catch (error) {
+        console.log("Error: connecting to api in Test");
+    }
 });
 
 // runs after each tests is executed
