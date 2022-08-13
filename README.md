@@ -13,6 +13,7 @@ Please follow following steps to run this backend repository.
 -   [Populate database table with data](#populate-database-table-with-data)
 -   [Docker](#docker)
 -   [Project Structure](#project-structure)
+-   [PG-ADMIN](#pg-admin)
 -   [Test](#test)
 -   [APIs](#apis)
 -   [Migrations](#migrations)
@@ -24,6 +25,7 @@ Please follow following steps to run this backend repository.
 -   Backend built in Node.js with typescript.
 -   Database: PostgreSQL.
 -   ORM: typeORM.
+-   PG-Admin: GUI interface.
 -   Run script to parse CSV files and store it into database tables.
 
 ## Prerequisites
@@ -36,14 +38,14 @@ To build and run this app locally you will need a few things:
 
 ### Download CSV files in order to populate PostgreSQL database
 
-For this exercise, download four datasets of journey data list and station list. The data is owned by Helsinki City Bike Finland. To populate database, you mush download these CSV datas and keep it into your local machine OR inside this project folder. For example:
+For this exercise, download four datasets of journey data list and station list. The data is owned by Helsinki City Bike Finland. To populate database, you MUST download these CSV datas and keep it inside this project folder under `src/database/data`. For example:
 
 ```bash
-# keep all CSV data into seperate folder called: data
+# keep all CSV data(s) into seperate folder called: data
 cd src/database/<create a new folder>
-# for example:
+# Like this:
 cd src/database/data
-# By doing so, all CSV datas are ignored from git. Check out at .gitignore file
+# By doing so, all CSV datas are ignored from git. And script file get right path to get CSV files. Check out at 'runcsv.ts' file
 ```
 
 Datasets are:
@@ -69,7 +71,8 @@ To get started you must follow following steps one after another:
    `make up` \
    this command run docker-compose up and build services. It also create a database for you automatically. Follow Docker section for more details.
 
-5) Create a new folder (named it as `data`) under `src` folder. Download all above given four datasets into it.
+5) Create a new folder (named it as `data`) under `src/database/` folder. Download all above given four datasets into it. You may required to rename dataset number 4 in correct format with .CSV file extension. \
+   Like this: `hsl_citybike_stations.csv`
 6) Populate database with some data in it locally. \
    Run a script file with some required aggruments. Check out for more information: [Populate database table with data](#populate-database-table-with-data).
 
@@ -80,7 +83,7 @@ To get started you must follow following steps one after another:
 git clone https://github.com/rohbdn07/hsl-city-bike-app-BACKEND.git
 
 # Change into root directory
-cd <root folder>
+cd hsl-city-nike-app-backend
 ```
 
 ### 2 & 3) Put environment variables:
@@ -135,9 +138,10 @@ make down
 
 ## 5) Populate database table with data
 
-Make sure that you have already downloaded all datasets and stored it into a new folder (data) under src/database/< new folder> before starting below commands. \
+Make sure that you MUST have already downloaded all datasets and stored(moved) it into a newly created folder (data) under src/database/< new folder> before starting below commands. \
+Like this: `src/database/data `
 
-At the root of this project, there is a script file called: `runcsv.ts`. This script is use for inserting data into database. Use following table name and pass it one after another as described below. \
+After above instruction, at the root of this project, there is a script file called: `runcsv.ts`. This script is use for inserting data into database. Use following table name and pass it one after another as described below. \
 Tables name are:
 
 -   table2021_05
@@ -165,6 +169,23 @@ Note:
 You can test api(s) through Postman.
 
 ---
+
+## PG-ADMIN
+
+You can see database tables and schema through GUI interface: PG-Admin. \
+After successfully following above steps, now you can vist: `https://localhost:5000` \
+First, you need to sign in into PG-Admin:\
+username: root \
+password(email): root@root.com
+
+then after, there will be a option form for: create a new server. \
+ Create server with any name and then, form requires input values as your database's name, database's username, database's password. Check at your .env \
+ Important note: host address MUST be `postgres` . It is because same name is given in docker-compose service for postgresSQL.
+
+![Pg_admin_screenshoot01](https://user-images.githubusercontent.com/57314666/184510983-815b6c80-39b4-482b-8e04-e93c9d74f224.png)
+
+Then, click 'Save button'. After that you'll see database name and under it database schema and tables on the left side of this page. \
+Check if you already have all tables (empty at inital) under public schema.
 
 ## Test
 
