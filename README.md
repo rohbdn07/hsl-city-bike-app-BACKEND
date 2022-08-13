@@ -83,7 +83,7 @@ To get started you must follow following steps one after another:
 git clone https://github.com/rohbdn07/hsl-city-bike-app-BACKEND.git
 
 # Change into root directory
-cd hsl-city-nike-app-backend
+cd hsl-city-bike-app-BACKEND
 ```
 
 ### 2 & 3) Put environment variables:
