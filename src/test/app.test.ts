@@ -22,9 +22,9 @@ beforeEach(async () => {
         port: process.env.POSTGRESQL_PORT
             ? parseInt(process.env.POSTGRESQL_PORT)
             : 5432,
-        username: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        database: process.env.POSTGRES_DB,
+        username: process.env.APP_DB_USER || "postgres",
+        password: process.env.APP_DB_PASS || "postgres",
+        database: process.env.APP_DB_NAME || "pg_database",
         entities: [`src/database/entity/**/*.${isComplied ? "js" : "ts"}`],
         // migrations: [`src/migration/**/*.${isComplied ? "js" : "ts"}`],
         // logging: true,
@@ -109,15 +109,15 @@ describe("GET /stationinfo/:id/:monthname", function () {
 
 // Run Tests for request: GET /stationlist and its queries
 describe("GET /stationslist", () => {
-    it("should responds with status code 400 if no queries has passed", async () => {
+    it("should responds with status code 200 even when no queries has passed", async () => {
         const response = await request(app)
             .get("/api/hslcitybike/stationslists")
             .set("Accept", "application/json");
-        expect(response.statusCode).toEqual(400);
-        expect(response.body).toHaveProperty("success", false);
+        expect(response.statusCode).toEqual(200);
+        expect(response.body).toHaveProperty("success", true);
         expect(response.body).toHaveProperty(
             "message",
-            "Please enter required queries either name, page, count or stationid."
+            "successfully got the data from database"
         );
     });
 
