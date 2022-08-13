@@ -1,9 +1,9 @@
 ## Helsinki City Bike application (Backend with node Js and typescript)
 
-Project is about to create a UI and a backend service for displaying travel data made with helsinki city bikes in the Uusimaa region. \
+This a backend part of a full-stack Project which is to create a UI and a backend service for displaying journey lists of data made with Helsinki city bikes in the Uusimaa region. \
 This is a backend repository. Frontend repository can be found here: \
 Link: https://github.com/rohbdn07/hsl_citybike_FRONTEND.git \
-Please follow following steps to run this repository.
+Please follow following steps to run this backend repository.
 
 ## Table of Contents
 
@@ -13,15 +13,17 @@ Please follow following steps to run this repository.
 -   [Populate database table with data](#populate-database-table-with-data)
 -   [Docker](#docker)
 -   [Project Structure](#project-structure)
+-   [Test](#test)
+-   [APIs](#apis)
+-   [Migrations](#migrations)
 -   [Useful Tools and Resources](#useful-tools-and-resources)
--   [Pro Tips](#pro-tips)
--   [How It Works](#how-it-works-mini-guides)
 
 ## Features
 
 -   MVC Project Structure.
 -   Backend built in Node.js with typescript.
 -   Database: PostgreSQL.
+-   ORM: typeORM.
 -   Run script to parse CSV files and store it into database tables.
 
 ## Prerequisites
@@ -158,4 +160,87 @@ Note:
 -   --file=<filename.csv> denotes that datasets that you had already downloaded.
 -   --counts= total number of rows that you want to display. You can increase this counts value. Keep it in mind that larger counts values take little more time to inserted rows into respective tables.
 
-### Ready to Go....
+### **Congratulations..after doing all this. now you can see project is running...**
+
+You can test api(s) through Postman.
+
+---
+
+## Test
+
+You can run test locally with this command: `npm run test`
+
+## APIs
+
+The followings are api(s): \
+Station list
+
+-   GET Request
+    -   http://localhost:5050/api/hslcitybike/stationslists \
+        Get all data of stations list.
+    -   http://localhost:5050/api/hslcitybike/stationslists?page=1&count=40&name=pasila \
+        Get station list data according to queries.
+
+Station information By ID
+
+-   GET Request
+    -   http://localhost:5050/api/hslcitybike/stationsinfo/501/may \
+        Get station infromation and its total travel info by its station id and month.
+
+Journey list infrormation
+
+-   GET Request
+    -   http://localhost:5050/api/hslcitybike/journeylist/month/july \
+        Get all journey lists of particular month
+    -   http://localhost:5050/api/hslcitybike/journeylist/month/july?page=1&count=20&search=Mäntyviita \
+        Get journey list according to queries.
+
+### Migrations
+
+Once you get into production you'll need to synchronize model changes into the database. Typically, it is unsafe to use `synchronize: true` for schema synchronization on production once you get data in your database. Here is where migrations come to help.
+
+A migration is just a single file with sql queries to update a database schema and apply new changes to an existing database. \
+In this project, ORM: `typeORM` is in use. Follow this link for more details: \
+https://typeorm.io/migrations
+
+Run migration with following command(s): \
+`npm run migration:generate` \
+it generate migration file(s) automatically.
+
+On every changes in entity (data table column), run migration with this command: \
+`npm run migration:up` \
+it run migration so that you will get updated tables into a database.
+
+### Useful Tools and Resources
+
+TypeScript
+
+-   https://www.typescriptlang.org/
+
+Node Js
+
+-   https://nodejs.org/en/docs/
+
+NPM
+
+-   https://www.npmjs.com/
+
+Express Js
+
+-   http://expressjs.com/
+
+TypeORM
+
+-   https://typeorm.io/
+
+PostgreSQL
+
+-   https://www.postgresqltutorial.com/
+
+Docker
+
+-   https://www.docker.com/get-started/
+
+Jest (testing)
+
+-   https://jestjs.io/
