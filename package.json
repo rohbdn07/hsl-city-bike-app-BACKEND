@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "NODE_ENV=development nodemon --ignore './src/runcsv.ts' --ignore './src/test/*.test.ts' --exec 'ts-node' ./src/server.ts",
         "start": "NODE_PATH=./dist node dist/server.ts",
-        "build": "rm -f dist && npx tsc",
+        "build": "rm -rf dist && npx tsc",
         "typeorm": "typeorm-ts-node-commonjs",
         "migration:create": "typeorm-ts-node-commonjs migration:create ./src/migrations/hslMigration",
         "migration:generate": "typeorm-ts-node-commonjs migration:generate ./src/migrations/hslMigration -d ./src/config/configDB.ts",
