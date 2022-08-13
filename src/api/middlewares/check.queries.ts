@@ -28,19 +28,15 @@ export const checkSearchQuery = (req, res: Response, next: NextFunction) => {
 
 export const checkQueryForStationList = (req, res, next) => {
     const { name, page, count, stationid } = req.query;
-
-    if ((name || page || count || stationid) !== undefined) {
-        req.stationName = name;
-        req.page = page;
-        req.count = count;
-        req.stationid = stationid;
-        next();
-    } else {
-        res.status(400).json({
-            success: false,
-            message: `Please enter required queries either name, page, count or stationid.`,
-        });
-    }
+    req.stationName = name;
+    req.page = page;
+    req.count = count;
+    req.stationid = stationid;
+    next();
+    // res.status(400).json({
+    //     success: false,
+    //     message: `Please enter required queries either name, page, count or stationid.`,
+    // });
 };
 
 export const checkStationIdParams = (req, res, next) => {
