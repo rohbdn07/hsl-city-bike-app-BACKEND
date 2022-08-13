@@ -24,3 +24,8 @@ jobs:
             - run: npm install
             - run: npm run build --if-present
             - run: npm test
+              env:
+                  POSTGRESQL_PORT: ${{ secrets.POSTGRESQL_PORT }}
+                  APP_DB_NAME: ${{secrets.APP_DB_NAME}}
+                  APP_DB_PASS: ${{secrets.APP_DB_PASS}}
+                  APP_DB_USER: ${{secrets.APP_DB_USER}}
