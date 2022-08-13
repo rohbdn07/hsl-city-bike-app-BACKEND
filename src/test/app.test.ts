@@ -16,23 +16,27 @@ const isComplied = path.extname(__filename).includes("js");
 
 // runs before each tests
 beforeEach(async () => {
-    connection = new DataSource({
-        type: "postgres",
-        host: "localhost",
-        port: process.env.POSTGRESQL_PORT
-            ? parseInt(process.env.POSTGRESQL_PORT)
-            : 5432,
-        username: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        database: process.env.POSTGRES_DB,
-        entities: [`src/database/entity/**/*.${isComplied ? "js" : "ts"}`],
-        // migrations: [`src/migration/**/*.${isComplied ? "js" : "ts"}`],
-        // logging: true,
-        // synchronize: true,
-        // dropSchema: true,
-    });
-    await connection.initialize();
-    server = app.listen(port);
+    try {
+        connection = new DataSource({
+            type: "postgres",
+            host: "localhost",
+            port: process.env.POSTGRESQL_PORT
+                ? parseInt(process.env.POSTGRESQL_PORT)
+                : 5432,
+            username: process.env.APP_DB_USER,
+            password: process.env.APP_DB_PASS,
+            database: process.env.APP_DB_NAME,
+            entities: [`src/database/entity/**/*.${isComplied ? "js" : "ts"}`],
+            // migrations: [`src/migration/**/*.${isComplied ? "js" : "ts"}`],
+            // logging: true,
+            // synchronize: true,
+            // dropSchema: true,
+        });
+        await connection.initialize();
+        server = app.listen(port);
+    } catch (error) {
+        console.log("Error: connecting to api in Test");
+    }
 });
 
 // runs after each tests is executed
@@ -109,15 +113,15 @@ describe("GET /stationinfo/:id/:monthname", function () {
 
 // Run Tests for request: GET /stationlist and its queries
 describe("GET /stationslist", () => {
-    it("should responds with status code 400 if no queries has passed", async () => {
+    it("should responds with status code 200 even when no queries has passed", async () => {
         const response = await request(app)
             .get("/api/hslcitybike/stationslists")
             .set("Accept", "application/json");
-        expect(response.statusCode).toEqual(400);
-        expect(response.body).toHaveProperty("success", false);
+        expect(response.statusCode).toEqual(200);
+        expect(response.body).toHaveProperty("success", true);
         expect(response.body).toHaveProperty(
             "message",
-            "Please enter required queries either name, page, count or stationid."
+            "successfully got the data from database"
         );
     });
 
