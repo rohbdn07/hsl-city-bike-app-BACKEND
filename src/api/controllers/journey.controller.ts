@@ -12,13 +12,6 @@ import JourneyService from "../../services";
 
 export const showJourneyList = async (req, res: Response) => {
     const { month, searchQuery, page, count } = req;
-    console.log(
-        "Controller is called and month is:",
-        month,
-        searchQuery,
-        page,
-        count
-    );
     try {
         const getData = await JourneyService.getRows({
             month,
