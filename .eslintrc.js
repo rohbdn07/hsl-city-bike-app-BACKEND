@@ -1,10 +1,6 @@
 module.exports = {
     parser: "@typescript-eslint/parser",
-    extends: [
-        "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint",
-        "plugin:prettier/recommended",
-    ],
+    extends: ["prettier"],
     parserOptions: {
         ecmaVersion: 2020,
         sourceType: "module",
@@ -15,11 +11,12 @@ module.exports = {
     },
     rules: {
         "no-var": "error",
-        semi: "error",
-        indent: ["error", 2, { SwitchCase: 1 }],
-        "no-multi-spaces": "error",
-        "space-in-parens": "error",
-        "no-multiple-empty-lines": "error",
-        "prefer-const": "error",
+        semi: 0,
+        bracketSameLine: 0,
+
+        // indent: ["error", 2, { SwitchCase: 1 }],
+        // "no-multi-spaces": "error",
+        // "space-in-parens": "error",
+        // "prefer-const": "error",
     },
 };

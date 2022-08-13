@@ -1,5 +1,8 @@
 {
     "compilerOptions": {
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "strictPropertyInitialization": false,
       "target": "es6",
       "module": "commonjs",
       "strict": true,
@@ -11,11 +14,10 @@
       "sourceMap": true,
       "forceConsistentCasingInFileNames": true,
       "outDir": "./dist",
-      "declaration": true
+      "declaration": true,
     },
     "include": [
-      "src/**/*.ts"
-    ],
+      "src/**/*.ts","src/**/*.js"],
     "exclude": [
       "src/**/*.spec.ts",
       "node_modules"

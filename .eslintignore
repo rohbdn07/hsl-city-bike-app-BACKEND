@@ -1,5 +1,6 @@
-node_modules/
 dist
+node_modules
+postgres-data
 # ignore the csv dataset folders and its data
 /src/database/csvtest/
 /src/database/data/
