@@ -1,6 +1,7 @@
 ## Helsinki City Bike application (Backend with node Js and typescript)
 
-This a backend part of a full-stack Project which is to create a UI and a backend service for displaying journey lists of data made with Helsinki city bikes in the Uusimaa region. \
+This a backend part of a full-stack Project which is to create a UI and a backend service for displaying journey lists and stations list made with Helsinki city bikes in around Uusimaa region.
+
 This is a backend repository. Frontend repository can be found here: \
 Link: https://github.com/rohbdn07/hsl_citybike_FRONTEND.git \
 Please follow following steps to run this backend repository.
@@ -12,12 +13,13 @@ Please follow following steps to run this backend repository.
 -   [Getting Started](#getting-started)
 -   [Populate database table with data](#populate-database-table-with-data)
 -   [Docker](#docker)
--   [Project Structure](#project-structure)
+-   [PSQL](#psql)
 -   [PG-ADMIN](#pg-admin)
 -   [Test](#test)
 -   [APIs](#apis)
 -   [Migrations](#migrations)
 -   [Useful Tools and Resources](#useful-tools-and-resources)
+-   [Things to do in future](#things-to-do-in-future)
 
 ## Features
 
@@ -30,7 +32,7 @@ Please follow following steps to run this backend repository.
 
 ## Prerequisites
 
-To build and run this app locally you will need a few things:
+To build and run this app locally you MUST need a few things:
 
 -   Install [Node.js](https://nodejs.org/en/)
 -   Install [Docker](https://www.docker.com/get-started/)
@@ -65,16 +67,17 @@ License and information: \
 To get started you must follow following steps one after another:
 
 1. Clone this repository
-2. Create `.env` file into the root of the project.
-3. Put all the required env variables into .env file, Check `.env-example` file for required variables.
-4. Run docker compose command. First, simply run this command in the terminal:  
+2. Install npm into your local VSCode by `npm install`.
+3. Create `.env` file at the root of the project.
+4. Put all the required env variables into .env file, Check `.env-example` file for required variables.
+5. Run docker compose command. First, simply run this command in the terminal:  
    `make up` \
-   this command run docker-compose up and build services. It also create a database for you automatically. Follow Docker section for more details.
+   this command run docker-compose up and build services. It also create a database for you automatically(because of script file). Follow Docker section for more details.
 
-5) Create a new folder (named it as `data`) under `src/database/` folder. Download all above given four datasets into it. You may required to rename dataset number 4 in correct format with .CSV file extension. \
+6. Create a new folder (named it as `data`) under `src/database/` folder. Download all above given four datasets into it. You may required to rename dataset number 4 in correct format with `.CSV` file extension. \
    Like this: `hsl_citybike_stations.csv`
-6) Populate database with some data in it locally. \
-   Run a script file with some required aggruments. Check out for more information: [Populate database table with data](#populate-database-table-with-data).
+7. Populate database with some data in it locally. \
+   Run a script file with required agruments. Check out for more information: [Populate database table with data](#populate-database-table-with-data).
 
 ### 1) Git Clone
 
@@ -86,7 +89,11 @@ git clone https://github.com/rohbdn07/hsl-city-bike-app-BACKEND.git
 cd hsl-city-bike-app-BACKEND
 ```
 
-### 2 & 3) Put environment variables:
+### 2) Npm install
+
+`npm install`
+
+### 3 & 4) Put environment variables
 
 Create `.env` file at the root of the project. Put below env variables.
 
@@ -109,7 +116,7 @@ APP_DB_PASS=
 APP_DB_NAME=
 ```
 
-### 4) Docker
+### 5) Docker
 
 #### make up
 
@@ -122,26 +129,27 @@ After finishing above steps, simply run this command in your terminal: \
 make up
 ```
 
-it then runs docker build command up and install all the dependencies required. \
+it then runs docker-compose up --build and install all the dependencies required. \
 It also create database on postgresSQL automatically.
 Next, this backend will serve at: `https://localhost:5050` \
 For Pg-Admin (GUI) will serve at: `https://localhost:5000`
 
 #### make down
 
-Docker-compose down, it then stop and removes all services containers.
+Only run this command if you want to stop and removes all services containers.
 
 ```bash
 # stops and remove the docker containers
 make down
 ```
 
-## 5) Populate database table with data
+### 6) Populate database table with data
 
-Make sure that you MUST have already downloaded all datasets and stored(moved) it into a newly created folder (data) under src/database/< new folder> before starting below commands. \
-Like this: `src/database/data `
+Make sure that you MUST have already downloaded all datasets and stored(moved) it into a newly created folder (data) under src/database/< new folder> \
+Like this: `src/database/data ` \
+You must finished this before starting any below commands.
 
-After above instruction, at the root of this project, there is a script file called: `runcsv.ts`. This script is use for inserting data into database. Use following table name and pass it one after another as described below. \
+After above instructions, at the root of this project, there is a script file called: `runcsv.ts`. This script is use for inserting data into database. Use following table name and pass it one after another as described below. \
 Tables name are:
 
 -   table2021_05
@@ -160,26 +168,63 @@ npm run csv --file=2021-05.csv --table=table2021_05 --counts=5000
 Note:
 
 -   Run this script command for each tables. First, let finish first action then repeat for another action.
--   table names MUST be same one that is mentioned above.
--   --file=<filename.csv> denotes that datasets that you had already downloaded.
+-   --table names MUST be the same one that is mentioned above.
+-   Make sure that you have used right filename according to right table's name.
+-   --file=<filename.csv> denotes that datasets that you have already downloaded.
 -   --counts= total number of rows that you want to display. You can increase this counts value. Keep it in mind that larger counts values take little more time to inserted rows into respective tables.
 
-### **Congratulations..after doing all this. now you can see project is running...**
+You can increase `idleTimeoutMillis` values if your connection is terminated without completing tasks.
 
-You can test api(s) through Postman.
+```bash
+  const pool = new Pool({
+            host: "localhost",
+            user: process.env.APP_DB_USER,
+            database: process.env.APP_DB_NAME,
+            password: process.env.APP_DB_PASS,
+            port: parseInt(`${process.env.POSTGRESQL_PORT}`) || 5432,
+            max: 20,
+            idleTimeoutMillis: 40000, // increase this value if connection is terminated without completing tasks.
+            allowExitOnIdle: false,
+        });
+```
+
+### PSQL
+
+-   Check if data is already inserted into database's tables or not. Either by using docker cli command OR by using PG-Admin tool. \
+    On your terminal(cli) at the root folder, run this commands:
+
+```bash
+# list all running docker containers
+sudo docker ps
+
+# dive into postgreSQL container by this:
+sudo docker exec -it <container_id> /bin/bash
+
+# login into postgreSQL database
+psql -U <db_Username> -d <db_Name>
+
+# show lists of tables
+\dt
+
+#then, you can run psql queries to select table and see data in it.
+```
+
+#### **Congratulations..after doing all this. Now you can see data(s) are inserted into database's tables**
+
+You can test api(s) through Postman. See at [`APIs`] section.
 
 ---
 
 ## PG-ADMIN
 
-You can see database tables and schema through GUI interface: PG-Admin. \
-After successfully following above steps, now you can vist: `https://localhost:5000` \
+You can see database tables and schema through GUI interface as well: PG-Admin. \
+After following above instructions successfully, now you can vist: `https://localhost:5000` \
 First, you need to sign in into PG-Admin:\
 username: root \
 password(email): root@root.com
 
-then after, there will be a option form for: create a new server. \
- Create server with any name and then, form requires input values as your database's name, database's username, database's password. Check at your .env \
+then after, there will be a option for: create a new server. \
+ Just Create server with any name and then, form requires input values as your database's name, database's username, database's password. See at your .env file\
  Important note: host address MUST be `postgres` . It is because same name is given in docker-compose service for postgresSQL.
 
 ![Pg_admin_screenshoot01](https://user-images.githubusercontent.com/57314666/184510983-815b6c80-39b4-482b-8e04-e93c9d74f224.png)
@@ -189,7 +234,8 @@ Check if you already have all tables (empty at inital) under public schema.
 
 ## Test
 
-You can run test locally with this command: `npm run test`
+You can run test locally with this command: `npm run test` \
+it will run test for api routes and response it receive.
 
 ## APIs
 
@@ -220,6 +266,8 @@ Journey list infrormation
 
 Once you get into production you'll need to synchronize model changes into the database. Typically, it is unsafe to use `synchronize: true` for schema synchronization on production once you get data in your database. Here is where migrations come to help.
 
+Optional: For `ONLY Development environment` purpose, you can set `synchronize: true` so that it will automactially synchronization database schema for you, if you do changes/updates in entities (table columns). Doing this, you don't required to runs regular `migration up` and `migration down` commands.
+
 A migration is just a single file with sql queries to update a database schema and apply new changes to an existing database. \
 In this project, ORM: `typeORM` is in use. Follow this link for more details: \
 https://typeorm.io/migrations
@@ -231,6 +279,9 @@ it generate migration file(s) automatically.
 On every changes in entity (data table column), run migration with this command: \
 `npm run migration:up` \
 it run migration so that you will get updated tables into a database.
+
+`npm run migration:down` \
+it then, revert the last changes back to original stage.
 
 ### Useful Tools and Resources
 
@@ -265,3 +316,7 @@ Docker
 Jest (testing)
 
 -   https://jestjs.io/
+
+### Things to do in future
+
+-   To make better api(s) visualization, OpenAPI with Swagger can be added in this project.
