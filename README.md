@@ -143,7 +143,7 @@ Only run this command if you want to stop and removes all services containers.
 make down
 ```
 
-### 6) Populate database table with data
+### 6 & 7) Populate database table with data
 
 Make sure that you MUST have already downloaded all datasets and stored(moved) it into a newly created folder (data) under src/database/< new folder> \
 Like this: `src/database/data ` \
