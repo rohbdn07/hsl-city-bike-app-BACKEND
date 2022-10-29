@@ -5,12 +5,22 @@
  *   @functions - getRows()
  */
 
-import { GetRowsOfTheMonthProps } from "../interface/interfaces";
+import {
+    GetRowsOfTheMonthProps,
+    IGetRowsResult,
+} from "../interface/interfaces";
 import JourneyRepository from "../database/repository/index";
 
-export const getRows = async ({ month, searchQuery, page, count }) => {
+export const getRows = async ({
+    month,
+    searchQuery,
+    page,
+    count,
+}: GetRowsOfTheMonthProps): Promise<IGetRowsResult> => {
     const pageSize =
-        !isNaN(page) && !isNaN(count) ? (page - 1) * count : parseInt("0");
+        page && !isNaN(page) && !isNaN(count)
+            ? (page - 1) * count
+            : parseInt("0");
     try {
         // get data through respository from database
         const response = await JourneyRepository.getRowsOfTheMonth({
@@ -30,7 +40,6 @@ export const getRows = async ({ month, searchQuery, page, count }) => {
                         : totalRows
                     : parseInt("0")
                 : undefined;
-
             return {
                 success: true,
                 message: "successfully got the data from database",

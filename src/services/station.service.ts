@@ -25,8 +25,8 @@ export const getStationRows = async ({
     stationName,
     page,
     count,
-}) => {
-    const pageSize = (parseInt(page) - 1) * parseInt(count);
+}: Omit<IStationQuery, "pageSize">) => {
+    const pageSize = (Number(page) - 1) * Number(count);
     try {
         const response = await StationRepository.getRowsOfStation({
             pageSize,
@@ -37,10 +37,10 @@ export const getStationRows = async ({
         if (response?.data.length > 0) {
             const totalRows = response?.totalCounts;
             const hslData = response?.data;
-            const counts = parseInt(count)
-                ? !isNaN(parseInt(count))
-                    ? totalRows >= parseInt(count)
-                        ? parseInt(count)
+            const counts = Number(count)
+                ? !isNaN(Number(count))
+                    ? totalRows >= Number(count)
+                        ? Number(count)
                         : totalRows
                     : parseInt("0")
                 : undefined;
