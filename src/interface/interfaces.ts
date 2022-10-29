@@ -4,7 +4,14 @@ import { EntitySchema, Repository } from "typeorm";
 export interface IGetRowsResult {
     success: boolean;
     message: string;
-    data?: any;
+    data?: Data;
+}
+
+interface Data {
+    monthName: string;
+    counts: number;
+    totalRows: [];
+    hslData: [];
 }
 
 export interface IExtendsRequest extends Request {
@@ -19,8 +26,9 @@ export interface ITableName {
 export type GetRowsOfTheMonthProps = {
     month: string;
     searchQuery: string;
-    pageSize: number;
+    pageSize?: number;
     count: number;
+    page?: number;
 };
 
 export interface IStationQuery {
@@ -28,6 +36,7 @@ export interface IStationQuery {
     stationName?: string;
     pageSize?: number;
     count?: number;
+    page?: string;
 }
 
 export interface IStationById {
